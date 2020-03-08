@@ -1,0 +1,93 @@
+﻿# Name:  Ryan Hutton
+# Assignment: Final Project Script One - Rental Car Script
+# Course:  IT 140 - Introduction to Scripting
+# Institution:  Southern New Hampshire University
+# Date:  26 January 2019
+
+# Prompt: Your task for Final Project Script One is to create a simple rental car
+# billing calculator.  This script also emphasizes the importance of using and 
+# modifying variables, and how branches may impact your approach in creating a 
+# script.
+
+import sys
+
+rentalCode = input("(B)udget, (D)aily, or (W)eekly rental?\n")
+ 
+if (rentalCode == 'D' or rentalCode == 'd'):
+  rentalPeriod = input("Number of Days Rented:\n")
+elif(rentalCode == 'W' or rentalCode == 'w'):
+  rentalPeriod = input("Number of Weeks Rented:\n")
+else:
+  rentalPeriod = input("Number of Days Rented:\n")
+
+budgetCharge = 40.00
+dailyCharge = 60.00
+weeklyCharge = 190.00
+baseCharge = 0.00
+
+# baseCharge is assigned an original value of 0.00
+#  above, then gets modified with the dailyCharge 
+#  multiplied by the rentalPeriod below.  rentalPeriod needs to 
+#  be converted to a float in order to calculate the baseCharge
+
+if(rentalCode == 'D' or rentalCode == 'd'):
+  baseCharge = float(rentalPeriod) * dailyCharge
+elif(rentalCode == 'W' or rentalCode == 'w'):
+  baseCharge = float(rentalPeriod) * weeklyCharge
+else:
+  baseCharge = float(rentalPeriod) * budgetCharge
+
+# odoStart and odoEnd are strings collected from the
+#  user.  To calculate totalMiles (an integer), 
+#  odoStart and odoEnd must be converted to integers
+
+odoStart = input("Starting Odometer Reading:\n")
+odoEnd = input("Ending Odometer Reading:\n")
+totalMiles = int(odoEnd) - int(odoStart)
+
+# A significant branch below is described as such:
+#  if the user selects (B)udget, multiply the totalMiles
+#  by 25%. Else if the choice is (D)aily and the miles
+#  are not below 100 miles, take the difference and calculate
+#  the mileCharge with the extraMiles. Next, if the 
+#  user selects (W)eekly, and the weekly average miles
+#  are greater than 900, multiply the rentalPeriod by 100.
+#  Finally, mileCharge is set to 0 if all other conditions
+#  are not met.
+
+if(rentalCode == 'B' or rentalCode == 'b'):
+  mileCharge = totalMiles * 0.25
+  
+elif(rentalCode == 'D' or rentalCode == 'd'):
+  averageDayMiles = totalMiles / int(rentalPeriod)
+  
+  if(averageDayMiles <= 100):
+    extraMiles = 0
+    
+  extraMiles = averageDayMiles - 100
+  mileCharge = extraMiles * 0.25
+  
+elif(rentalCode == 'W' or rentalCode == 'w'):
+  if(averageWeekMiles <= 900):
+    extraMiles = 0
+
+  elif(averageWeekMiles > 900):
+    mileCharge = rentalPeriod * 100
+  
+  else:
+    mileCharge = 0
+
+# baseCharge is assigned an initial value of 0.00
+#  above and is added to the mileage charge.  amtDue
+#  is the total of baseCharge and mileCharge. The value
+#  of amtDue is printed out as a float to the 2nd
+#  decimal place
+amtDue = baseCharge + mileCharge
+
+print("Rental Summary")
+print("Rental Code: ", rentalCode)
+print("Rental Period: ", rentalPeriod)
+print("Starting Odometer: ", odoStart)
+print("Ending Odometer: ", odoEnd)
+print("Miles Driven: ", totalMiles)
+print("Amount Due: $%.2f" % amtDue)
